@@ -507,7 +507,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	scissorrect.left = 0; // 切り抜き左座標
 	scissorrect.right = scissorrect.left + window_width; // 切り抜き右座標
 	scissorrect.bottom = scissorrect.top + window_height; // 切り抜き下座標
-														  
+
 	
 	// Chapter5_4 P159													  
 	//ノイズテクスチャの作成
