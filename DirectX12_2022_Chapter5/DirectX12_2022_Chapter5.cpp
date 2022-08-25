@@ -556,15 +556,15 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	//}
 	for (int i = 0; i < 256; i++) {
 		for (int j = 0; j < 256; j++) {
-			if (i == j) {
-				texturedata[j * 256 + i].R = 255;
-				texturedata[j * 256 + i].G = 0;
-				texturedata[j * 256 + i].B = 0;
+			if ((i / 16 % 2) % 2 == 0) {
+				texturedata[j * 256 + i].R = 200;
+				texturedata[j * 256 + i].G = 123;
+				texturedata[j * 256 + i].B = 180;
 			}
 			else {
-				texturedata[j * 256 + i].R = 255;
-				texturedata[j * 256 + i].G = 255;
-				texturedata[j * 256 + i].B = 255;
+				texturedata[j * 256 + i].R = 145;
+				texturedata[j * 256 + i].G = 240;
+				texturedata[j * 256 + i].B = 110;
 			}
 			texturedata[j * 256 + i].A = 1;
 		}
