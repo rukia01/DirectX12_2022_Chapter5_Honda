@@ -238,6 +238,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	ShowWindow(hwnd, SW_SHOW);
 
+	float ratio = (float)window_width / window_height;
+
 	//Chapter5_1 P155
 	// 頂点データ構造体
 	struct Vertex {
@@ -246,10 +248,16 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	};
 
 	Vertex  vertices[] = {
-		{{-0.4f, -0.7f, 0.0f},	{0.0f, 1.0f}}, // 左下
-		{{-0.4f,  0.7f, 0.0f},	{0.0f, 0.0f}}, // 左上 
-		{{ 0.4f, -0.7f, 0.0f},	{1.0f, 1.0f}}, // 右下
-		{{ 0.4f,  0.7f, 0.0f},	{1.0f, 0.0f}}, // 右上
+		{{0.0f, 0.5f, 0.0f},	{0.0f, 1.0f}}, // 左下
+		{{0.25f * (float)sqrt(3) / ratio,  -0.25f * (float)sqrt(3) + 0.5f , 0.0f},	{0.0f, 0.0f}}, // 左上 
+		{{ 0.25f / ratio, -0.25f * (float)sqrt(3), 0.0f},	{0.5f, 0.5f}}, // 右下
+		{{ -0.25f / ratio,  -0.25f * (float)sqrt(3), 0.0f},	{1.0f, 0.0f}}, // 右上
+		{{ -0.25f * (float)sqrt(3) / ratio,  -0.25f * (float)sqrt(3) + 0.5f , 0.0f},	{0.0f, 0.0f}},
+
+		{{ -0.9f, -0.5f, 0.0f} , {0.0f, 0.0f}},
+		{{ -0.9f,  0.4f, 0.0f} , {1.0f, 1.0f}},
+		{{ -0.5f,  -0.5f, 0.0f},	{1.0f, 0.0f}},
+
 	};
 
 	//XMFLOAT3 vertices[] = {	//TRIANGLELIST
@@ -314,7 +322,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	vbView.StrideInBytes = sizeof(vertices[0]); // 1頂点あたりのバイト数
 
 	//Chapter4_11_2 P150
-	unsigned short indices[] = { 0, 1, 2,    2, 1, 3 };
+	unsigned short indices[] = { 0, 1, 2,    0, 2, 3,    0, 3, 4,    6, 7, 5, };
 	ID3D12Resource* idxBuff = nullptr;
 	resdesc.Width = sizeof(indices);
 	result = _dev->CreateCommittedResource(
@@ -631,6 +639,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	MSG	msg = {};
 	// Chapter4_10_3
 	float clearColor[] = { 0.125f, 0.125f, 0.125f, 1.0f }; //黄色
+	int frame = 0;
 
 	while (true) {
 		if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE)) {
@@ -662,8 +671,15 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		auto rtvH = rtvHeaps->GetCPUDescriptorHandleForHeapStart();
 		rtvH.ptr += bbIdx * _dev->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
 		_cmdList->OMSetRenderTargets(1, &rtvH, true, nullptr);
+
+		clearColor[0] = sin(frame / 50.0f);
+		clearColor[1] = sin(frame / 100.0f);
+		clearColor[2] = sin(frame / 150.0f);
+		clearColor[3] = sin(frame / 200.0f);
+
 		_cmdList->ClearRenderTargetView(rtvH, clearColor, 0, nullptr);
 
+		frame++;
 
 		// Chapter4_10_3 P145 改造
 		_cmdList->RSSetViewports(1, &viewport);
@@ -682,7 +698,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 			texDescHeap->GetGPUDescriptorHandleForHeapStart()); // ヒープアドレス
 
 
-		_cmdList->DrawIndexedInstanced(6, 1, 0, 0, 0);
+		_cmdList->DrawIndexedInstanced(12, 1, 0, 0, 0);
 
 		//// Chapter3_4_3　 リソースバリア
 		BarrierDesc.Transition.StateBefore = D3D12_RESOURCE_STATE_RENDER_TARGET;
