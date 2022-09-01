@@ -570,9 +570,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 				texturedata[j * 256 + i].B = 180;
 			}
 			else {
-				texturedata[j * 256 + i].R = 145;
-				texturedata[j * 256 + i].G = 240;
-				texturedata[j * 256 + i].B = 110;
+				texturedata[j * 256 + i].R = 255;
+				texturedata[j * 256 + i].G = 255;
+				texturedata[j * 256 + i].B = 255;
 			}
 			texturedata[j * 256 + i].A = 1;
 		}
