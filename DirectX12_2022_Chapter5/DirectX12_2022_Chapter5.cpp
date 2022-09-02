@@ -248,11 +248,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	};
 
 	Vertex  vertices[] = {
-		{{0.0f, 0.5f, 0.0f},	{0.0f, 0.0f}}, // 左下
+		{{0.0f, 0.0f, 0.0f},	{0.0f, 0.0f}}, // 左下
 		{{0.25f * (float)sqrt(3) / ratio,  -0.25f * (float)sqrt(3) + 0.5f , 0.0f},	{1.0f, 1.0f}}, // 左上 
 		{{ 0.25f / ratio, -0.25f * (float)sqrt(3), 0.0f},	{1.0f, 0.0f}}, // 右下
 		{{ -0.25f / ratio,  -0.25f * (float)sqrt(3), 0.0f},	{0.0f, 1.0f}}, // 右上
 		{{ -0.25f * (float)sqrt(3) / ratio,  -0.25f * (float)sqrt(3) + 0.5f , 0.0f},	{1.0f, 1.0f}},
+		{{ 0.0f, 0.5f , 0.0f},	{0.0f, 1.0f}},
 
 		{{ -0.9f, -0.5f, 0.0f} , {0.0f, 0.0f}},
 		{{ -0.9f,  0.4f, 0.0f} , {1.0f, 1.0f}},
@@ -322,7 +323,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	vbView.StrideInBytes = sizeof(vertices[0]); // 1頂点あたりのバイト数
 
 	//Chapter4_11_2 P150
-	unsigned short indices[] = { 0, 1, 2,    0, 2, 3,    0, 3, 4,    6, 7, 5, };
+	unsigned short indices[] = { 0, 1, 2,    0, 2, 3,    0, 3, 4,   0, 1, 5,   0, 4, 5,   7, 8, 6, };
 	ID3D12Resource* idxBuff = nullptr;
 	resdesc.Width = sizeof(indices);
 	result = _dev->CreateCommittedResource(
@@ -698,7 +699,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 			texDescHeap->GetGPUDescriptorHandleForHeapStart()); // ヒープアドレス
 
 
-		_cmdList->DrawIndexedInstanced(12, 1, 0, 0, 0);
+		_cmdList->DrawIndexedInstanced(18, 1, 0, 0, 0);
 
 		//// Chapter3_4_3　 リソースバリア
 		BarrierDesc.Transition.StateBefore = D3D12_RESOURCE_STATE_RENDER_TARGET;
