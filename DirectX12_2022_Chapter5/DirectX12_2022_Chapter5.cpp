@@ -250,12 +250,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	Vertex  vertices[] = {
 
 		//一つ目の図形
-		{{0.0f, 0.0f, 0.0f},	{0.0f, 0.0f}}, // 中心
-		{{0.25f * (float)sqrt(3) / ratio,  -0.25f * (float)sqrt(3) + 0.5f , 0.0f},	{1.0f, 1.0f}}, // 右上
-		{{ 0.25f / ratio, -0.25f * (float)sqrt(3), 0.0f},	{1.0f, 0.0f}}, // 右下
-		{{ -0.25f / ratio,  -0.25f * (float)sqrt(3), 0.0f},	{0.0f, 1.0f}}, // 右上
-		{{ -0.25f * (float)sqrt(3) / ratio,  -0.25f * (float)sqrt(3) + 0.5f , 0.0f},	{1.0f, 1.0f}},  //左上
-		{{ 0.0f, 0.5f , 0.0f},	{0.0f, 1.0f}},  //上
+		{{0.0f, 0.0f, 0.0f},	{1.0f, 1.0f}}, // 中心
+		{{0.25f * (float)sqrt(3) / ratio,  -0.25f * (float)sqrt(3) + 0.5f , 0.0f},	{0.0f, 1.0f}}, // 右上
+		{{ 0.25f / ratio, -0.25f * (float)sqrt(3), 0.0f},	{0.0f, 0.0f}}, // 右下
+		{{ -0.25f / ratio,  -0.25f * (float)sqrt(3), 0.0f},	{0.0f, 1.0f}}, // 左下
+		{{ -0.25f * (float)sqrt(3) / ratio,  -0.25f * (float)sqrt(3) + 0.5f , 0.0f},	{1.0f, 0.0f}},  //左上
+		{{ 0.0f, 0.5f , 0.0f},	{0.0f, 0.0f}},  //上
 		
 		//二つ目の図形
 		{{ -0.9f, -0.5f, 0.0f} , {0.0f, 0.0f}},
@@ -568,12 +568,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	//}
 	for (int i = 0; i < 256; i++) {
 		for (int j = 0; j < 256; j++) {
-			if ((i / 16 % 2) % 2 == 0 && (j / 16 % 2) % 2 == 0) {
-				texturedata[j * 256 + i].R = 200;
-				texturedata[j * 256 + i].G = 123;
-				texturedata[j * 256 + i].B = 180;
+			if ((i / 16 % 2) % 2 == 0 && (j / 16 % 2) % 2 == 0 || (i / 16 % 2) % 2 == 1 && (j / 16 % 2) % 2 == 1) {
+				texturedata[j * 256 + i].R = 0;
+				texturedata[j * 256 + i].G = 0;
+				texturedata[j * 256 + i].B = 0;
 			}
-			else if ((i / 16 % 2) % 2 == 1 && (j / 16 % 2) % 2 == 1) {
+			else if ((i / 16 % 2) % 2 == 0 && (j / 16 % 2) % 2 == 1 || (i / 16 % 2) % 2 == 1 && (j / 16 % 2) % 2 == 0) {
 				texturedata[j * 256 + i].R = 255;
 				texturedata[j * 256 + i].G = 255;
 				texturedata[j * 256 + i].B = 255;
